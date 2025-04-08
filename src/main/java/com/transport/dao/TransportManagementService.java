@@ -7,7 +7,7 @@ import com.transport.entity.Vehicle;
 import java.util.List;
 
 public interface TransportManagementService {
-    
+
     boolean addVehicle(Vehicle vehicle);
 
     boolean updateVehicle(Vehicle vehicle);
@@ -31,5 +31,6 @@ public interface TransportManagementService {
     List<Booking> getBookingsByTrip(int tripId);
 
     List<Driver> getAvailableDrivers();
-}
 
+    List<Vehicle> getAllVehicles(); // ✅ Added to use in MainApp
+}

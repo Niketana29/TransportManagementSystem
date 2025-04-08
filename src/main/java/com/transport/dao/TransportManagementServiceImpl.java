@@ -1,6 +1,7 @@
 package com.transport.dao;
 
 import com.transport.entity.*;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,8 +12,13 @@ public class TransportManagementServiceImpl implements TransportManagementServic
     private List<Booking> bookingList = new ArrayList<>();
     private List<Driver> driverList = new ArrayList<>();
 
+    private int vehicleIdCounter = 1;
+    private int tripIdCounter = 1;
+    private int bookingIdCounter = 1;
+
     @Override
     public boolean addVehicle(Vehicle vehicle) {
+        vehicle.setVehicleId(vehicleIdCounter++);
         return vehicleList.add(vehicle);
     }
 
@@ -34,7 +40,7 @@ public class TransportManagementServiceImpl implements TransportManagementServic
 
     @Override
     public boolean scheduleTrip(int vehicleId, int routeId, String departureDate, String arrivalDate) {
-        Trip newTrip = new Trip(tripList.size() + 1, vehicleId, routeId, departureDate, arrivalDate);
+        Trip newTrip = new Trip(tripIdCounter++, vehicleId, routeId, departureDate, arrivalDate);
         return tripList.add(newTrip);
     }
 
@@ -45,7 +51,7 @@ public class TransportManagementServiceImpl implements TransportManagementServic
 
     @Override
     public boolean bookTrip(int tripId, int passengerId, String bookingDate) {
-        Booking newBooking = new Booking(bookingList.size() + 1, tripId, passengerId, bookingDate);
+        Booking newBooking = new Booking(bookingIdCounter++, tripId, passengerId, bookingDate);
         return bookingList.add(newBooking);
     }
 
@@ -100,6 +106,11 @@ public class TransportManagementServiceImpl implements TransportManagementServic
 
     @Override
     public List<Driver> getAvailableDrivers() {
-        return driverList; // Assume all drivers are available for now
+        return driverList; // For simplicity, return all as available
+    }
+
+    @Override
+    public List<Vehicle> getAllVehicles() {
+        return vehicleList;
     }
 }

@@ -7,29 +7,30 @@ import java.util.Properties;
 import java.io.IOException;
 
 public class DBConnection {
-    private static Connection connection;
+    static {
+        try {
+            Properties props = new Properties();
+            props.load(DBConnection.class.getClassLoader().getResourceAsStream("db.properties"));
+            Class.forName(props.getProperty("db.driver"));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
     public static Connection getConnection() {
-        if (connection == null) {
-            try {
-                Properties props = new Properties();
-                props.load(DBConnection.class.getClassLoader().getResourceAsStream("db.properties"));
-    
-                String url = props.getProperty("db.url");
-                String user = props.getProperty("db.username");
-                String password = props.getProperty("db.password");
-                String driver = props.getProperty("db.driver");
-    
-                // Load the MySQL JDBC driver class
-                Class.forName(driver);
-    
-                connection = DriverManager.getConnection(url, user, password);
-                System.out.println("Database Connected Successfully!");
-            } catch (IOException | SQLException | ClassNotFoundException e) {
-                e.printStackTrace();
-            }
+        try {
+            Properties props = new Properties();
+            props.load(DBConnection.class.getClassLoader().getResourceAsStream("db.properties"));
+
+            return DriverManager.getConnection(
+                props.getProperty("db.url"),
+                props.getProperty("db.username"),
+                props.getProperty("db.password")
+            );
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
         }
-        return connection;
     }
-    
 }
+

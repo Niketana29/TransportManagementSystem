@@ -1,13 +1,15 @@
 package com.transport.main;
 
-import com.transport.dao.VehicleDAO;
+import com.transport.dao.TransportManagementService;
+import com.transport.dao.TransportManagementServiceImpl;
 import com.transport.entity.Vehicle;
+
 import java.util.List;
 import java.util.Scanner;
 
 public class MainApp {
     private static final Scanner scanner = new Scanner(System.in);
-    private static final VehicleDAO vehicleDAO = new VehicleDAO();
+    private static final TransportManagementService service = new TransportManagementServiceImpl();
 
     public static void main(String[] args) {
         while (true) {
@@ -16,10 +18,10 @@ public class MainApp {
             System.out.println("2. View All Vehicles");
             System.out.println("3. Exit");
             System.out.print("Enter your choice: ");
-            
+
             int choice = scanner.nextInt();
             scanner.nextLine();  // Consume newline
-            
+
             switch (choice) {
                 case 1:
                     addVehicle();
@@ -49,15 +51,15 @@ public class MainApp {
         String status = scanner.nextLine();
 
         Vehicle vehicle = new Vehicle(0, model, capacity, type, status);
-        if (vehicleDAO.addVehicle(vehicle)) {
-            System.out.println("Vehicle added successfully!");
+        if (service.addVehicle(vehicle)) {
+            System.out.println(" Vehicle added successfully!");
         } else {
-            System.out.println("Failed to add vehicle.");
+            System.out.println(" Failed to add vehicle.");
         }
     }
 
     private static void viewAllVehicles() {
-        List<Vehicle> vehicles = vehicleDAO.getAllVehicles();
+        List<Vehicle> vehicles = service.getAllVehicles();
         if (vehicles.isEmpty()) {
             System.out.println("No vehicles found.");
         } else {
