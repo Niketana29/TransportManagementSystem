@@ -2,42 +2,35 @@ package com.transport.entity;
 
 public class Passenger {
     private int passengerId;
-    private String firstName;
-    private String gender;
-    private int age;
-    private String email;
-    private String phoneNumber;
+    private String name;
+    private String contactNumber;
 
-    // Default Constructor
-    public Passenger() {}
-
-    // Parameterized Constructor
-    public Passenger(int passengerId, String firstName, String gender, int age, String email, String phoneNumber) {
-        this.passengerId = passengerId;
-        this.firstName = firstName;
-        this.gender = gender;
-        this.age = age;
-        this.email = email;
-        this.phoneNumber = phoneNumber;
+    public int getPassengerId() {
+        return passengerId;
     }
 
-    // Getters and Setters
-    public int getPassengerId() { return passengerId; }
-    public void setPassengerId(int passengerId) { this.passengerId = passengerId; }
+    public void setPassengerId(int passengerId) {
+        this.passengerId = passengerId;
+    }
 
-    public String getFirstName() { return firstName; }
-    public void setFirstName(String firstName) { this.firstName = firstName; }
+    public String getName() {
+        return name;
+    }
 
-    public String getGender() { return gender; }
-    public void setGender(String gender) { this.gender = gender; }
+    public void setName(String name) {
+        this.name = name;
+    }
 
-    public int getAge() { return age; }
-    public void setAge(int age) { this.age = age; }
+    public String getContactNumber() {
+        return contactNumber;
+    }
 
-    public String getEmail() { return email; }
-    public void setEmail(String email) { this.email = email; }
+    public void setContactNumber(String contactNumber) {
+        this.contactNumber = contactNumber;
+    }
 
-    public String getPhoneNumber() { return phoneNumber; }
-    public void setPhoneNumber(String phoneNumber) { this.phoneNumber = phoneNumber; }
+    @Override
+    public String toString() {
+        return "Passenger [passengerId=" + passengerId + ", name=" + name + ", contactNumber=" + contactNumber + "]";
+    }
 }
-

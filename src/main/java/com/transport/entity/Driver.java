@@ -4,23 +4,42 @@ public class Driver {
     private int driverId;
     private String name;
     private String licenseNumber;
+    private boolean available;
 
-    // Constructors
-    public Driver() {}
+    public int getDriverId() {
+        return driverId;
+    }
 
-    public Driver(int driverId, String name, String licenseNumber) {
+    public void setDriverId(int driverId) {
         this.driverId = driverId;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
         this.name = name;
+    }
+
+    public String getLicenseNumber() {
+        return licenseNumber;
+    }
+
+    public void setLicenseNumber(String licenseNumber) {
         this.licenseNumber = licenseNumber;
     }
 
-    // Getters and Setters
-    public int getDriverId() { return driverId; }
-    public void setDriverId(int driverId) { this.driverId = driverId; }
+    public boolean isAvailable() {
+        return available;
+    }
 
-    public String getName() { return name; }
-    public void setName(String name) { this.name = name; }
+    public void setAvailable(boolean available) {
+        this.available = available;
+    }
 
-    public String getLicenseNumber() { return licenseNumber; }
-    public void setLicenseNumber(String licenseNumber) { this.licenseNumber = licenseNumber; }
+    @Override
+    public String toString() {
+        return "Driver [driverId=" + driverId + ", name=" + name + ", licenseNumber=" + licenseNumber + ", available=" + available + "]";
+    }
 }

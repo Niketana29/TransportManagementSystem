@@ -9,15 +9,15 @@ public class Booking {
     private LocalDateTime bookingDate;
     private String status;
 
-    // Default Constructor
+    // ✅ Default Constructor
     public Booking() {}
 
-    // Parameterized Constructor
+    // ✅ Parameterized Constructor
     public Booking(int bookingId, int tripId, int passengerId, String status) {
         this.bookingId = bookingId;
         this.tripId = tripId;
         this.passengerId = passengerId;
-        this.bookingDate = LocalDateTime.now();  // Auto-assign current date
+        this.bookingDate = LocalDateTime.now();
         this.status = status;
     }
 
@@ -36,5 +36,10 @@ public class Booking {
 
     public String getStatus() { return status; }
     public void setStatus(String status) { this.status = status; }
-}
 
+    @Override
+    public String toString() {
+        return "Booking [bookingId=" + bookingId + ", tripId=" + tripId + ", passengerId=" + passengerId
+                + ", bookingDate=" + bookingDate + ", status=" + status + "]";
+    }
+}

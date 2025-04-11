@@ -40,17 +40,31 @@ public class TransportManagementServiceImpl implements TransportManagementServic
 
     @Override
     public boolean scheduleTrip(int vehicleId, int routeId, String departureDate, String arrivalDate) {
+        // Optional: Check if vehicle exists
+        boolean exists = vehicleList.stream().anyMatch(v -> v.getVehicleId() == vehicleId);
+        if (!exists) return false;
+
         Trip newTrip = new Trip(tripIdCounter++, vehicleId, routeId, departureDate, arrivalDate);
         return tripList.add(newTrip);
     }
 
     @Override
     public boolean cancelTrip(int tripId) {
-        return tripList.removeIf(trip -> trip.getTripId() == tripId);
+        // Remove trip
+        boolean removed = tripList.removeIf(trip -> trip.getTripId() == tripId);
+        if (removed) {
+            // Also remove associated bookings (optional)
+            bookingList.removeIf(b -> b.getTripId() == tripId);
+        }
+        return removed;
     }
 
     @Override
     public boolean bookTrip(int tripId, int passengerId, String bookingDate) {
+        // Check if trip exists
+        boolean exists = tripList.stream().anyMatch(t -> t.getTripId() == tripId);
+        if (!exists) return false;
+
         Booking newBooking = new Booking(bookingIdCounter++, tripId, passengerId, bookingDate);
         return bookingList.add(newBooking);
     }
@@ -62,6 +76,21 @@ public class TransportManagementServiceImpl implements TransportManagementServic
 
     @Override
     public boolean allocateDriver(int tripId, int driverId) {
+        // Check if driver exists
+        Driver driver = null;
+        for (Driver d : driverList) {
+            if (d.getDriverId() == driverId) {
+                driver = d;
+                break;
+            }
+        }
+        if (driver == null) return false;
+
+        // Check if already allocated to another trip
+        for (Trip t : tripList) {
+            if (t.getDriverId() == driverId) return false;
+        }
+
         for (Trip trip : tripList) {
             if (trip.getTripId() == tripId) {
                 trip.setDriverId(driverId);
@@ -75,7 +104,7 @@ public class TransportManagementServiceImpl implements TransportManagementServic
     public boolean deallocateDriver(int tripId) {
         for (Trip trip : tripList) {
             if (trip.getTripId() == tripId) {
-                trip.setDriverId(0); // 0 means no driver assigned
+                trip.setDriverId(0); // 0 = no driver assigned
                 return true;
             }
         }
@@ -106,11 +135,22 @@ public class TransportManagementServiceImpl implements TransportManagementServic
 
     @Override
     public List<Driver> getAvailableDrivers() {
-        return driverList; // For simplicity, return all as available
+        List<Driver> availableDrivers = new ArrayList<>(driverList);
+        for (Trip trip : tripList) {
+            if (trip.getDriverId() != 0) {
+                availableDrivers.removeIf(d -> d.getDriverId() == trip.getDriverId());
+            }
+        }
+        return availableDrivers;
     }
 
     @Override
     public List<Vehicle> getAllVehicles() {
         return vehicleList;
+    }
+
+    // Optional utility: to populate drivers
+    public void addDriver(Driver driver) {
+        driverList.add(driver);
     }
 }

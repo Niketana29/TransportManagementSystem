@@ -1,5 +1,8 @@
 package com.transport.entity;
 
+/**
+ * Represents a route with starting and ending destinations.
+ */
 public class Route {
     private int routeId;
     private String startDestination;
@@ -30,4 +33,3 @@ public class Route {
     public double getDistance() { return distance; }
     public void setDistance(double distance) { this.distance = distance; }
 }
-
